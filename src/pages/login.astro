@@ -1,0 +1,16 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SigninForm from "../components/signin-form1";
+import CombinedThemeToggle from "../components/CombinedThemeToggle";
+---
+
+<Layout>
+	<div class="flex min-h-screen w-full flex-col">
+		<header class="flex items-center justify-end p-4">
+			<CombinedThemeToggle client:load />
+		</header>
+		<main class="flex flex-1 items-center justify-center">
+			<SigninForm client:load />
+		</main>
+	</div>
+</Layout>
