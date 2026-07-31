@@ -52,8 +52,6 @@ export default function UserForm() {
   const [wards, setWards] = useState<string[]>(DEFAULT_WARDS);
   const [fetchingConfig, setFetchingConfig] = useState(true);
 
-  const [focusedField, setFocusedField] = useState<string | null>(null);
-
   // Fetch panchayaths and wards from Firestore
   useEffect(() => {
     const fetchConfig = async () => {
@@ -84,7 +82,7 @@ export default function UserForm() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const getInputStyle = (fieldName: string): React.CSSProperties => ({
+  const getInputStyle = (): React.CSSProperties => ({
     width: "100%",
     background: "#1C1C21",
     border: "none",
@@ -95,14 +93,11 @@ export default function UserForm() {
     fontSize: "14px",
     appearance: "none" as const,
     outline: "none",
-    boxShadow:
-      focusedField === fieldName
-        ? "0 0 0 1.5px #4FD1C5"
-        : "0 0 0 1px transparent",
+    boxShadow: "0 0 0 1px transparent",
     transition: "box-shadow .15s ease",
   });
 
-  const getSelectStyle = (fieldName: string): React.CSSProperties => ({
+  const getSelectStyle = (): React.CSSProperties => ({
     width: "100%",
     background: "#1C1C21",
     border: "none",
@@ -113,10 +108,7 @@ export default function UserForm() {
     fontSize: "14px",
     appearance: "none" as const,
     outline: "none",
-    boxShadow:
-      focusedField === fieldName
-        ? "0 0 0 1.5px #4FD1C5"
-        : "0 0 0 1px transparent",
+    boxShadow: "0 0 0 1px transparent",
     transition: "box-shadow .15s ease",
     backgroundImage:
       "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' stroke='%238FA1A6' stroke-width='2'><path d='M2 4l5 5 5-5'/></svg>\")",
@@ -183,6 +175,11 @@ export default function UserForm() {
       }}
     >
       <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet" />
+      <style>{`
+        .form-input-field:focus, .form-select-field:focus {
+          box-shadow: 0 0 0 1.5px #4FD1C5 !important;
+        }
+      `}</style>
       <div
         style={{
           width: "100%",
@@ -220,6 +217,7 @@ export default function UserForm() {
           {/* Name */}
           <div style={{ marginBottom: "18px" }}>
             <label
+              htmlFor="field-name"
               style={{
                 display: "block",
                 fontSize: "13px",
@@ -230,21 +228,22 @@ export default function UserForm() {
               Name
             </label>
             <input
+              id="field-name"
               type="text"
               name="name"
               placeholder="Enter your name"
               required
               value={formData.name}
               onChange={handleChange}
-              onFocus={() => setFocusedField("name")}
-              onBlur={() => setFocusedField(null)}
-              style={getInputStyle("name")}
+              className="form-input-field"
+              style={getInputStyle()}
             />
           </div>
 
           {/* Phone Number */}
           <div style={{ marginBottom: "18px" }}>
             <label
+              htmlFor="field-phone"
               style={{
                 display: "block",
                 fontSize: "13px",
@@ -255,21 +254,22 @@ export default function UserForm() {
               Phone Number
             </label>
             <input
+              id="field-phone"
               type="tel"
               name="phone"
               placeholder="Enter phone number"
               required
               value={formData.phone}
               onChange={handleChange}
-              onFocus={() => setFocusedField("phone")}
-              onBlur={() => setFocusedField(null)}
-              style={getInputStyle("phone")}
+              className="form-input-field"
+              style={getInputStyle()}
             />
           </div>
 
           {/* Blood Group */}
           <div style={{ marginBottom: "18px" }}>
             <label
+              htmlFor="field-bloodGroup"
               style={{
                 display: "block",
                 fontSize: "13px",
@@ -280,13 +280,13 @@ export default function UserForm() {
               Blood Group
             </label>
             <select
+              id="field-bloodGroup"
               name="bloodGroup"
               required
               value={formData.bloodGroup}
               onChange={handleChange}
-              onFocus={() => setFocusedField("bloodGroup")}
-              onBlur={() => setFocusedField(null)}
-              style={getSelectStyle("bloodGroup")}
+              className="form-select-field"
+              style={getSelectStyle()}
             >
               <option value="" disabled>
                 Select blood group
@@ -302,6 +302,7 @@ export default function UserForm() {
           {/* Panchayath */}
           <div style={{ marginBottom: "18px" }}>
             <label
+              htmlFor="field-panchayath"
               style={{
                 display: "block",
                 fontSize: "13px",
@@ -312,13 +313,13 @@ export default function UserForm() {
               Panchayath
             </label>
             <select
+              id="field-panchayath"
               name="panchayath"
               required
               value={formData.panchayath}
               onChange={handleChange}
-              onFocus={() => setFocusedField("panchayath")}
-              onBlur={() => setFocusedField(null)}
-              style={getSelectStyle("panchayath")}
+              className="form-select-field"
+              style={getSelectStyle()}
             >
               <option value="" disabled>
                 Select panchayath
@@ -334,6 +335,7 @@ export default function UserForm() {
           {/* Ward */}
           <div style={{ marginBottom: "18px" }}>
             <label
+              htmlFor="field-ward"
               style={{
                 display: "block",
                 fontSize: "13px",
@@ -344,13 +346,13 @@ export default function UserForm() {
               Ward
             </label>
             <select
+              id="field-ward"
               name="ward"
               required
               value={formData.ward}
               onChange={handleChange}
-              onFocus={() => setFocusedField("ward")}
-              onBlur={() => setFocusedField(null)}
-              style={getSelectStyle("ward")}
+              className="form-select-field"
+              style={getSelectStyle()}
             >
               <option value="" disabled>
                 Select ward
