@@ -33,11 +33,6 @@ const greetings: Greeting[] = [
 
 const DynamicText = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -49,18 +44,16 @@ const DynamicText = () => {
 
   // Animation variants for the text
   const textVariants = {
-    hidden: { y: 20, opacity: 0 },
+    hidden: { y: 15, opacity: 0 },
     visible: { y: 0, opacity: 1 },
-    exit: { y: -20, opacity: 0 },
+    exit: { y: -15, opacity: 0 },
   };
-
-  if (!mounted) return null;
 
   return (
     <section
       aria-label="Rapid greetings in different languages"
       className="flex min-h-[200px] items-center justify-center gap-1 p-4"
-      style={{ fontFamily: "'Chilanka', cursive" }}
+      style={{ fontFamily: "'Chilanka', system-ui, sans-serif" }}
     >
       <div className="relative flex h-16 w-60 items-center justify-center overflow-visible">
         <AnimatePresence mode="popLayout">
@@ -69,7 +62,7 @@ const DynamicText = () => {
             aria-live="off"
             className="absolute flex items-center gap-2 font-medium text-3xl text-white"
             exit={textVariants.exit}
-            initial={textVariants.hidden}
+            initial={currentIndex === 0 ? false : textVariants.hidden}
             key={currentIndex}
             transition={{ duration: 0.15, ease: "easeOut" }}
           >
