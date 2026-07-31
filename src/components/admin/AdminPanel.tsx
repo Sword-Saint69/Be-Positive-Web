@@ -193,164 +193,175 @@ export default function AdminPanel() {
         href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap"
         rel="stylesheet"
       />
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <h1
-            style={{
-              margin: "0 0 8px",
-              fontSize: "32px",
-              fontWeight: 800,
-              color: "#FFFFFF",
-              letterSpacing: "-0.5px",
-            }}
-          >
-            Admin Panel
-          </h1>
-          <button
-            onClick={togglePlay}
-            style={{
-              background: "none",
-              border: "none",
-              color: isPlaying ? "#4FD1C5" : "#8A8A92",
-              cursor: "pointer",
-            }}
-          >
-            {isPlaying ? <Pause size={32} /> : <Play size={32} />}
-          </button>
+      {loadingUsers ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "80vh",
+          }}
+        >
+          <Loading />
         </div>
-        <p style={{ color: "#8A8A92", fontSize: "14px", marginBottom: "32px" }}>
-          Manage configurations and view registered users
-        </p>
-
-        {/* Config Section */}
-        {isOffline && (
-          <div style={{ ...cardStyle, background: "#ef444420", border: "1px solid #ef4444" }}>
-            <p style={{ color: "#ef4444", margin: 0 }}>You are currently offline. Changes will not be saved.</p>
-          </div>
-        )}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
-          <div style={cardStyle}>
-            <h2 style={{ margin: "0 0 16px", fontSize: "18px", color: "#4FD1C5" }}>
-              Panchayaths
-            </h2>
-            <p style={{ color: "#8A8A92", fontSize: "12px", marginBottom: "12px" }}>
-              Enter comma-separated names
-            </p>
-            <input
-              type="text"
-              placeholder="e.g. Haripad, Cheppad, Krishnapuram"
-              value={newPanchayath}
-              onChange={(e) => setNewPanchayath(e.target.value)}
-              style={inputStyle}
-            />
-            <button onClick={savePanchayaths} style={btnStyle}>
-              Save Panchayaths
+      ) : (
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <h1
+              style={{
+                margin: "0 0 8px",
+                fontSize: "32px",
+                fontWeight: 800,
+                color: "#FFFFFF",
+                letterSpacing: "-0.5px",
+              }}
+            >
+              Admin Panel
+            </h1>
+            <button
+              onClick={togglePlay}
+              style={{
+                background: "none",
+                border: "none",
+                color: isPlaying ? "#4FD1C5" : "#8A8A92",
+                cursor: "pointer",
+              }}
+            >
+              {isPlaying ? <Pause size={32} /> : <Play size={32} />}
             </button>
           </div>
-
-          <div style={cardStyle}>
-            <h2 style={{ margin: "0 0 16px", fontSize: "18px", color: "#4FD1C5" }}>
-              Wards
-            </h2>
-            <p style={{ color: "#8A8A92", fontSize: "12px", marginBottom: "12px" }}>
-              Enter comma-separated numbers
-            </p>
-            <input
-              type="text"
-              placeholder="e.g. 1, 2, 3, 4, 5"
-              value={newWard}
-              onChange={(e) => setNewWard(e.target.value)}
-              style={inputStyle}
-            />
-            <button onClick={saveWards} style={btnStyle}>
-              Save Wards
-            </button>
-          </div>
-        </div>
-
-        {configMsg && (
-          <p
-            style={{
-              color: configMsg.includes("success") ? "#4FD1C5" : "#ef4444",
-              fontSize: "13px",
-              marginBottom: "24px",
-            }}
-          >
-            {configMsg}
+          <p style={{ color: "#8A8A92", fontSize: "14px", marginBottom: "32px" }}>
+            Manage configurations and view registered users
           </p>
-        )}
 
-        {/* Users Table */}
-        <div style={cardStyle}>
-          <h2 style={{ margin: "0 0 16px", fontSize: "18px", color: "#4FD1C5" }}>
-            Registered Users
-          </h2>
-          {loadingUsers ? (
-            <Loading />
-          ) : users.length === 0 ? (
-            <p style={{ color: "#8A8A92" }}>No users registered yet.</p>
-          ) : (
-            <div style={{ overflowX: "auto" }}>
-              <table style={tableStyle}>
-                <thead>
-                  <tr>
-                    <th style={thStyle}>Name</th>
-                    <th style={thStyle}>Phone</th>
-                    <th style={thStyle}>Blood Group</th>
-                    <th style={thStyle}>Panchayath</th>
-                    <th style={thStyle}>Ward</th>
-                    <th style={thStyle}>Password</th>
-                    <th style={thStyle}>Registered</th>
-                    <th style={thStyle}>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map((u) => (
-                    <tr key={u.id}>
-                      <td style={tdStyle}>{u.name}</td>
-                      <td style={tdStyle}>{u.phone}</td>
-                      <td style={tdStyle}>{u.bloodGroup}</td>
-                      <td style={tdStyle}>{u.panchayath}</td>
-                      <td style={tdStyle}>{u.ward}</td>
-                      <td
-                        style={{
-                          ...tdStyle,
-                          fontFamily: "monospace",
-                          letterSpacing: "1px",
-                          color: "#4FD1C5",
-                        }}
-                      >
-                        {u.password}
-                      </td>
-                      <td style={tdStyle}>
-                        {u.createdAt
-                          ? u.createdAt.toDate().toLocaleString()
-                          : "N/A"}
-                      </td>
-                      <td style={tdStyle}>
-                        <button
-                          onClick={() => deleteUser(u.id)}
-                          style={{
-                            background: "#ef4444",
-                            color: "white",
-                            border: "none",
-                            padding: "6px 12px",
-                            borderRadius: "6px",
-                            cursor: "pointer",
-                            fontSize: "12px",
-                          }}
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          {/* Config Section */}
+          {isOffline && (
+            <div style={{ ...cardStyle, background: "#ef444420", border: "1px solid #ef4444" }}>
+              <p style={{ color: "#ef4444", margin: 0 }}>You are currently offline. Changes will not be saved.</p>
             </div>
           )}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
+            <div style={cardStyle}>
+              <h2 style={{ margin: "0 0 16px", fontSize: "18px", color: "#4FD1C5" }}>
+                Panchayaths
+              </h2>
+              <p style={{ color: "#8A8A92", fontSize: "12px", marginBottom: "12px" }}>
+                Enter comma-separated names
+              </p>
+              <input
+                type="text"
+                placeholder="e.g. Haripad, Cheppad, Krishnapuram"
+                value={newPanchayath}
+                onChange={(e) => setNewPanchayath(e.target.value)}
+                style={inputStyle}
+              />
+              <button onClick={savePanchayaths} style={btnStyle}>
+                Save Panchayaths
+              </button>
+            </div>
+
+            <div style={cardStyle}>
+              <h2 style={{ margin: "0 0 16px", fontSize: "18px", color: "#4FD1C5" }}>
+                Wards
+              </h2>
+              <p style={{ color: "#8A8A92", fontSize: "12px", marginBottom: "12px" }}>
+                Enter comma-separated numbers
+              </p>
+              <input
+                type="text"
+                placeholder="e.g. 1, 2, 3, 4, 5"
+                value={newWard}
+                onChange={(e) => setNewWard(e.target.value)}
+                style={inputStyle}
+              />
+              <button onClick={saveWards} style={btnStyle}>
+                Save Wards
+              </button>
+            </div>
+          </div>
+
+          {configMsg && (
+            <p
+              style={{
+                color: configMsg.includes("success") ? "#4FD1C5" : "#ef4444",
+                fontSize: "13px",
+                marginBottom: "24px",
+              }}
+            >
+              {configMsg}
+            </p>
+          )}
+
+          {/* Users Table */}
+          <div style={cardStyle}>
+            <h2 style={{ margin: "0 0 16px", fontSize: "18px", color: "#4FD1C5" }}>
+              Registered Users
+            </h2>
+            {users.length === 0 ? (
+              <p style={{ color: "#8A8A92" }}>No users registered yet.</p>
+            ) : (
+              <div style={{ overflowX: "auto" }}>
+                <table style={tableStyle}>
+                  <thead>
+                    <tr>
+                      <th style={thStyle}>Name</th>
+                      <th style={thStyle}>Phone</th>
+                      <th style={thStyle}>Blood Group</th>
+                      <th style={thStyle}>Panchayath</th>
+                      <th style={thStyle}>Ward</th>
+                      <th style={thStyle}>Password</th>
+                      <th style={thStyle}>Registered</th>
+                      <th style={thStyle}>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {users.map((u) => (
+                      <tr key={u.id}>
+                        <td style={tdStyle}>{u.name}</td>
+                        <td style={tdStyle}>{u.phone}</td>
+                        <td style={tdStyle}>{u.bloodGroup}</td>
+                        <td style={tdStyle}>{u.panchayath}</td>
+                        <td style={tdStyle}>{u.ward}</td>
+                        <td
+                          style={{
+                            ...tdStyle,
+                            fontFamily: "monospace",
+                            letterSpacing: "1px",
+                            color: "#4FD1C5",
+                          }}
+                        >
+                          {u.password}
+                        </td>
+                        <td style={tdStyle}>
+                          {u.createdAt
+                            ? u.createdAt.toDate().toLocaleString()
+                            : "N/A"}
+                        </td>
+                        <td style={tdStyle}>
+                          <button
+                            onClick={() => deleteUser(u.id)}
+                            style={{
+                              background: "#ef4444",
+                              color: "white",
+                              border: "none",
+                              padding: "6px 12px",
+                              borderRadius: "6px",
+                              cursor: "pointer",
+                              fontSize: "12px",
+                            }}
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

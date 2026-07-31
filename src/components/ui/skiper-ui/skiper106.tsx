@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, type FormEvent } from "react";
-import { Form } from "@heroui/react";
 import { db } from "@/lib/firebase";
 import {
   collection,
@@ -168,7 +167,7 @@ export default function UserForm() {
   };
 
   if (fetchingConfig) {
-    return <Loading />;
+    return <Loading duration={0} inline={true} />;
   }
 
   return (
@@ -217,7 +216,7 @@ export default function UserForm() {
           Fill in your details to register
         </p>
 
-        <Form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           {/* Name */}
           <div style={{ marginBottom: "18px" }}>
             <label
@@ -426,7 +425,7 @@ export default function UserForm() {
           >
             {loading ? "Submitting..." : "Submit"}
           </button>
-        </Form>
+        </form>
       </div>
     </div>
   );

@@ -1,14 +1,54 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import DynamicText from "../kokonutui/dynamic-text";
 
-export default function Loading() {
-  return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", background: "#0A0A0C" }}>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      <link href="https://fonts.googleapis.com/css2?family=Chilanka&display=swap" rel="stylesheet" />
-      <div style={{ fontFamily: "'Chilanka', cursive" }}>
+interface LoadingProps {
+  duration?: number;
+  onComplete?: () => void;
+  inline?: boolean;
+}
+
+export default function Loading({
+  duration = 2000,
+  onComplete,
+  inline = false,
+}: LoadingProps) {
+  const [show, setShow] = useState(true);
+
+  useEffect(() => {
+    if (duration <= 0) return;
+    const timer = setTimeout(() => {
+      setShow(false);
+      if (onComplete) onComplete();
+    }, duration);
+
+    return () => clearTimeout(timer);
+  }, [duration, onComplete]);
+
+  if (!show) return null;
+
+  if (inline) {
+    return (
+      <div className="flex items-center justify-center p-8 bg-[#0A0A0C]">
         <DynamicText />
       </div>
-    </div>
+    );
+  }
+
+  return (
+    <AnimatePresence>
+      {show && (
+        <motion.div
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4, ease: "easeInOut" }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#0A0A0C]"
+        >
+          <DynamicText />
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

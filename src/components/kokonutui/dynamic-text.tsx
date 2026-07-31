@@ -32,34 +32,28 @@ const greetings: Greeting[] = [
 
 const DynamicText = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!isAnimating) return;
+    setMounted(true);
+  }, []);
 
+  useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => {
-        const nextIndex = prevIndex + 1;
-
-        if (nextIndex >= greetings.length) {
-          clearInterval(interval);
-          setIsAnimating(false);
-          return prevIndex;
-        }
-
-        return nextIndex;
-      });
-    }, 300);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % greetings.length);
+    }, 200);
 
     return () => clearInterval(interval);
-  }, [isAnimating]);
+  }, []);
 
   // Animation variants for the text
   const textVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1 },
-    exit: { y: -100, opacity: 0 },
+    exit: { y: -20, opacity: 0 },
   };
+
+  if (!mounted) return null;
 
   return (
     <section
@@ -67,37 +61,24 @@ const DynamicText = () => {
       className="flex min-h-[200px] items-center justify-center gap-1 p-4"
       style={{ fontFamily: "'Chilanka', cursive" }}
     >
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      <link href="https://fonts.googleapis.com/css2?family=Chilanka&display=swap" rel="stylesheet" />
       <div className="relative flex h-16 w-60 items-center justify-center overflow-visible">
-        {isAnimating ? (
-          <AnimatePresence mode="popLayout">
-            <motion.div
-              animate={textVariants.visible}
-              aria-live="off"
-              className="absolute flex items-center gap-2 font-medium text-2xl text-gray-800 dark:text-gray-200"
-              exit={textVariants.exit}
-              initial={textVariants.hidden}
-              key={currentIndex}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-            >
-              <div
-                aria-hidden="true"
-                className="h-2 w-2 rounded-full bg-black dark:bg-white"
-              />
-              {greetings[currentIndex].text}
-            </motion.div>
-          </AnimatePresence>
-        ) : (
-          <div className="flex items-center gap-2 font-medium text-2xl text-gray-800 dark:text-gray-200">
+        <AnimatePresence mode="popLayout">
+          <motion.div
+            animate={textVariants.visible}
+            aria-live="off"
+            className="absolute flex items-center gap-2 font-medium text-3xl text-white"
+            exit={textVariants.exit}
+            initial={textVariants.hidden}
+            key={currentIndex}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+          >
             <div
               aria-hidden="true"
-              className="h-2 w-2 rounded-full bg-black dark:bg-white"
+              className="h-2.5 w-2.5 rounded-full bg-teal-400 animate-pulse"
             />
             {greetings[currentIndex].text}
-          </div>
-        )}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   );
