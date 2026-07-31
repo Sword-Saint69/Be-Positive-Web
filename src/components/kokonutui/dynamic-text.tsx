@@ -19,7 +19,7 @@ interface Greeting {
 }
 
 const greetings: Greeting[] = [
-  { text: "Hello", language: "English" },
+  { text: "നമസ്കാരം", language: "Malayalam" },
   { text: "こんにちは", language: "Japanese" },
   { text: "Bonjour", language: "French" },
   { text: "Hola", language: "Spanish" },
