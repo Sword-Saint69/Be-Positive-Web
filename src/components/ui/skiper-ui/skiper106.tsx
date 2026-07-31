@@ -159,7 +159,7 @@ export default function UserForm() {
   };
 
   if (fetchingConfig) {
-    return <Loading duration={0} inline={true} />;
+    return null;
   }
 
   return (
