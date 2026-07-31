@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, type FormEvent } from "react";
+import React, { useState, useEffect, type FormEvent } from "react";
 import { Form } from "@heroui/react";
 import { db } from "@/lib/firebase";
 import {
@@ -10,6 +10,7 @@ import {
   getDoc,
   serverTimestamp,
 } from "firebase/firestore";
+import Loading from "../Loading";
 
 function generatePassword(length = 8): string {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -124,8 +125,24 @@ export default function UserForm() {
     backgroundPosition: "right 14px center",
   });
 
+  const validateForm = (): string | null => {
+    if (formData.name.trim().length < 3) return "Name must be at least 3 characters long.";
+    if (!/^\d{10}$/.test(formData.phone.trim())) return "Phone number must be 10 digits.";
+    if (!formData.bloodGroup) return "Please select a blood group.";
+    if (!formData.panchayath) return "Please select a panchayath.";
+    if (!formData.ward) return "Please select a ward.";
+    return null;
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    const validationError = validateForm();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setSuccess(false);
@@ -151,21 +168,7 @@ export default function UserForm() {
   };
 
   if (fetchingConfig) {
-    return (
-      <div
-        style={{
-          minHeight: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "#0A0A0C",
-          fontFamily: "'Sora', 'Segoe UI', Arial, sans-serif",
-        }}
-      >
-        <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet" />
-        <p style={{ color: "#8A8A92" }}>Loading configuration...</p>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (

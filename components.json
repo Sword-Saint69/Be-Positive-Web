@@ -25,6 +25,7 @@
     "@shadcnuikit": "https://shadcnuikit.com/r/{name}.json",
     "@skiper-ui": "https://skiper-ui.com/registry/{name}.json",
     "@magicui": "https://magicui.design/r/{name}",
-    "@kokonutui": "https://kokonutui.com/r/{name}.json"
+    "@kokonutui": "https://kokonutui.com/r/{name}.json",
+    "@bklit": "https://ui.bklit.com/r/{name}.json"
   }
 }

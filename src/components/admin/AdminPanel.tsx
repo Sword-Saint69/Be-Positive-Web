@@ -7,11 +7,13 @@ import {
   getDocs,
   doc,
   setDoc,
+  deleteDoc,
   query,
   orderBy,
   Timestamp,
 } from "firebase/firestore";
-import { LiquidGlassCard } from "../kokonutui/liquid-glass-card";
+import Loading from "../ui/Loading";
+import { Play, Pause } from "lucide-react";
 
 type User = {
   id: string;
@@ -32,6 +34,29 @@ export default function AdminPanel() {
   const [newWard, setNewWard] = useState("");
   const [configMsg, setConfigMsg] = useState<string | null>(null);
   const [isOffline, setIsOffline] = useState(false);
+  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    setAudio(new Audio("/assets/Fernando Alonso.mp3"));
+  }, []);
+
+  const togglePlay = () => {
+    if (!audio) return;
+    if (isPlaying) {
+      audio.pause();
+    } else {
+      audio.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const deleteUser = async (id: string) => {
+    if (confirm("Are you sure you want to delete this user?")) {
+      await deleteDoc(doc(db, "users", id));
+      setUsers(users.filter((u) => u.id !== id));
+    }
+  };
 
   // Fetch users
   useEffect(() => {
@@ -66,6 +91,10 @@ export default function AdminPanel() {
   }, []);
 
   const savePanchayaths = async () => {
+    if (!newPanchayath.trim()) {
+      setConfigMsg("Please enter panchayaths.");
+      return;
+    }
     try {
       const names = newPanchayath
         .split(",")
@@ -80,6 +109,10 @@ export default function AdminPanel() {
   };
 
   const saveWards = async () => {
+    if (!newWard.trim()) {
+      setConfigMsg("Please enter wards.");
+      return;
+    }
     try {
       const numbers = newWard
         .split(",")
@@ -161,17 +194,30 @@ export default function AdminPanel() {
         rel="stylesheet"
       />
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <h1
-          style={{
-            margin: "0 0 8px",
-            fontSize: "32px",
-            fontWeight: 800,
-            color: "#FFFFFF",
-            letterSpacing: "-0.5px",
-          }}
-        >
-          Admin Panel
-        </h1>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <h1
+            style={{
+              margin: "0 0 8px",
+              fontSize: "32px",
+              fontWeight: 800,
+              color: "#FFFFFF",
+              letterSpacing: "-0.5px",
+            }}
+          >
+            Admin Panel
+          </h1>
+          <button
+            onClick={togglePlay}
+            style={{
+              background: "none",
+              border: "none",
+              color: isPlaying ? "#4FD1C5" : "#8A8A92",
+              cursor: "pointer",
+            }}
+          >
+            {isPlaying ? <Pause size={32} /> : <Play size={32} />}
+          </button>
+        </div>
         <p style={{ color: "#8A8A92", fontSize: "14px", marginBottom: "32px" }}>
           Manage configurations and view registered users
         </p>
@@ -234,23 +280,13 @@ export default function AdminPanel() {
           </p>
         )}
 
-        {/* Song Player Placeholder */}
-        <div style={{ marginBottom: "24px" }}>
-          <LiquidGlassCard>
-            <div style={{ padding: "20px", color: "#EDEDEF" }}>
-              <h3 style={{ margin: "0 0 10px" }}>Now Playing</h3>
-              <p style={{ margin: 0, color: "#8A8A92" }}>Placeholder for song...</p>
-            </div>
-          </LiquidGlassCard>
-        </div>
-
         {/* Users Table */}
         <div style={cardStyle}>
           <h2 style={{ margin: "0 0 16px", fontSize: "18px", color: "#4FD1C5" }}>
             Registered Users
           </h2>
           {loadingUsers ? (
-            <p style={{ color: "#8A8A92" }}>Loading users...</p>
+            <Loading />
           ) : users.length === 0 ? (
             <p style={{ color: "#8A8A92" }}>No users registered yet.</p>
           ) : (
@@ -265,6 +301,7 @@ export default function AdminPanel() {
                     <th style={thStyle}>Ward</th>
                     <th style={thStyle}>Password</th>
                     <th style={thStyle}>Registered</th>
+                    <th style={thStyle}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -289,6 +326,22 @@ export default function AdminPanel() {
                         {u.createdAt
                           ? u.createdAt.toDate().toLocaleString()
                           : "N/A"}
+                      </td>
+                      <td style={tdStyle}>
+                        <button
+                          onClick={() => deleteUser(u.id)}
+                          style={{
+                            background: "#ef4444",
+                            color: "white",
+                            border: "none",
+                            padding: "6px 12px",
+                            borderRadius: "6px",
+                            cursor: "pointer",
+                            fontSize: "12px",
+                          }}
+                        >
+                          Delete
+                        </button>
                       </td>
                     </tr>
                   ))}

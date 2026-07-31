@@ -1,8 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import UserForm from "../components/ui/skiper-ui/skiper106";
+import Loading from "../components/ui/Loading";
 ---
 
 <Layout>
+	<Loading client:load />
 	<UserForm client:load />
 </Layout>
