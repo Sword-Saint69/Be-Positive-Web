@@ -1,7 +1,6 @@
 "use client";
 
 import clsx from "clsx";
-import Link from "next/link";
 import { useState } from "react";
 
 interface NavItem {
@@ -48,11 +47,11 @@ export function MorphicNavbar({
               index < array.length - 1 ? array[index + 1][0] : null;
 
             return (
-              <Link
+              <a
                 className={clsx(
-                  "flex items-center justify-center bg-black p-1.5 px-4 text-sm text-white transition-all duration-300 dark:bg-white dark:text-black",
+                  "flex items-center justify-center bg-slate-100 p-1.5 px-4 text-sm text-slate-800 transition-all duration-300 hover:bg-slate-200",
                   isActive
-                    ? "mx-2 rounded-xl font-semibold text-sm"
+                    ? "mx-2 rounded-xl font-semibold text-sm bg-teal-600 text-white hover:bg-teal-700"
                     : clsx(
                         (isActiveLink(prevPath || "") || isFirst) &&
                           "rounded-l-xl",
@@ -60,12 +59,12 @@ export function MorphicNavbar({
                           "rounded-r-xl"
                       )
                 )}
-                href="#"
+                href={path}
                 key={path}
                 onClick={() => setActivePath(path)}
               >
                 {name}
-              </Link>
+              </a>
             );
           })}
         </div>

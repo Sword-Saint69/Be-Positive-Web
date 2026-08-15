@@ -22,19 +22,19 @@ export default function LoginPage() {
       await signInWithEmailAndPassword(auth, email, password);
       window.location.href = "/dashboard";
     } catch (err: any) {
-      setError(err.message || "Failed to sign in.");
+      setError(err.message || "ലോഗിൻ ചെയ്യാൻ സാധിച്ചില്ല.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <section className="flex min-h-screen w-full items-center justify-center py-4 lg:py-20">
+    <section className="flex min-h-screen w-full items-center justify-center py-4 lg:py-20 font-['Chilanka',sans-serif]">
       <div className="w-full max-w-sm space-y-6">
-        <h2 className="mt-6 font-bold text-3xl">Sign in to your account</h2>
+        <h2 className="mt-6 font-bold text-3xl text-slate-900">നിങ്ങളുടെ അക്കൗണ്ടിലേക്ക് പ്രവേശിക്കുക</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="email">Email address</Label>
+            <Label htmlFor="email" className="text-slate-700">ഇമെയിൽ വിലാസം</Label>
             <Input
               id="email"
               name="email"
@@ -47,7 +47,7 @@ export default function LoginPage() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password" className="text-slate-700">പാസ്‌വേഡ്</Label>
             <Input
               id="password"
               name="password"
@@ -65,14 +65,14 @@ export default function LoginPage() {
               <Checkbox id="rememberMe" />
               <label
                 htmlFor="rememberMe"
-                className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="text-sm leading-none font-medium text-slate-700 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                Remember me
+                ഓർത്തുവെക്കുക
               </label>
             </div>
 
-            <a href="#" className="text-sm hover:underline">
-              Forgot your password?
+            <a href="#" className="text-sm text-teal-600 hover:underline">
+              പാസ്‌വേഡ് മറന്നോ?
             </a>
           </div>
 
@@ -81,8 +81,8 @@ export default function LoginPage() {
           )}
 
           <div>
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Signing in..." : "Signin"}
+            <Button type="submit" className="w-full bg-teal-600 hover:bg-teal-700 text-white" disabled={loading}>
+              {loading ? "ലോഗിൻ ചെയ്യുന്നു..." : "ലോഗിൻ"}
             </Button>
           </div>
         </form>
@@ -92,7 +92,7 @@ export default function LoginPage() {
             <div className="relative flex items-center gap-2">
               <Separator className="flex-1" />
               <span className="text-muted-foreground shrink-0 text-sm">
-                or continue with
+                അല്ലെങ്കിൽ തുടരുക
               </span>
               <Separator className="flex-1" />
             </div>
@@ -141,3 +141,4 @@ export default function LoginPage() {
     </section>
   );
 }
+

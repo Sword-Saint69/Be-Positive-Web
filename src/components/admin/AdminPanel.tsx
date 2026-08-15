@@ -52,7 +52,7 @@ export default function AdminPanel() {
   };
 
   const deleteUser = async (id: string) => {
-    if (confirm("Are you sure you want to delete this user?")) {
+    if (confirm("ഈ ഉപയോക്താവിനെ നീക്കം ചെയ്യാൻ ആഗ്രഹിക്കുന്നുണ്ടോ?")) {
       await deleteDoc(doc(db, "users", id));
       setUsers(users.filter((u) => u.id !== id));
     }
@@ -81,7 +81,7 @@ export default function AdminPanel() {
         const data = snap.docs.map((d) => ({ id: d.id, ...d.data() } as User));
         setUsers(data);
       } catch {
-        setConfigMsg("Failed to load users.");
+        setConfigMsg("ഉപയോക്താക്കളുടെ വിവരം ലഭിച്ചില്ല.");
       } finally {
         setLoadingUsers(false);
       }
@@ -92,7 +92,7 @@ export default function AdminPanel() {
 
   const savePanchayaths = async () => {
     if (!newPanchayath.trim()) {
-      setConfigMsg("Please enter panchayaths.");
+      setConfigMsg("ദയവായി പഞ്ചായത്തുകൾ നൽകുക.");
       return;
     }
     try {
@@ -101,16 +101,16 @@ export default function AdminPanel() {
         .map((n) => n.trim())
         .filter(Boolean);
       await setDoc(doc(db, "config", "panchayaths"), { names });
-      setConfigMsg("Panchayaths saved successfully!");
+      setConfigMsg("പഞ്ചായത്തുകൾ വിജയകരമായി സേവ് ചെയ്തു!");
       setNewPanchayath("");
     } catch {
-      setConfigMsg("Failed to save panchayaths.");
+      setConfigMsg("പഞ്ചായത്തുകൾ സേവ് ചെയ്യാൻ സാധിച്ചില്ല.");
     }
   };
 
   const saveWards = async () => {
     if (!newWard.trim()) {
-      setConfigMsg("Please enter wards.");
+      setConfigMsg("ദയവായി വാർഡുകൾ നൽകുക.");
       return;
     }
     try {
@@ -119,29 +119,30 @@ export default function AdminPanel() {
         .map((n) => n.trim())
         .filter(Boolean);
       await setDoc(doc(db, "config", "wards"), { numbers });
-      setConfigMsg("Wards saved successfully!");
+      setConfigMsg("വാർഡുകൾ വിജയകരമായി സേവ് ചെയ്തു!");
       setNewWard("");
     } catch {
-      setConfigMsg("Failed to save wards.");
+      setConfigMsg("വാർഡുകൾ സേവ് ചെയ്യാൻ സാധിച്ചില്ല.");
     }
   };
 
   const cardStyle: React.CSSProperties = {
-    background: "#141417",
+    background: "#FFFFFF",
     borderRadius: "16px",
     padding: "24px",
     marginBottom: "24px",
-    boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
+    boxShadow: "0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.01)",
+    border: "1px solid #E2E8F0",
   };
 
   const inputStyle: React.CSSProperties = {
     width: "100%",
-    background: "#1C1C21",
-    border: "none",
+    background: "#F8FAFC",
+    border: "1px solid #CBD5E1",
     borderRadius: "10px",
     padding: "12px 14px",
-    color: "#EDEDEF",
-    fontFamily: "inherit",
+    color: "#0F172A",
+    fontFamily: "'Chilanka', sans-serif",
     fontSize: "14px",
     outline: "none",
     marginBottom: "12px",
@@ -152,47 +153,46 @@ export default function AdminPanel() {
     padding: "12px 24px",
     borderRadius: "10px",
     border: "none",
-    background: "linear-gradient(180deg, #4FD1C5 0%, #2C7A73 100%)",
-    color: "#0C1416",
+    background: "linear-gradient(180deg, #0D9488 0%, #0F766E 100%)",
+    color: "#FFFFFF",
     fontSize: "14px",
     fontWeight: 700,
     cursor: "pointer",
-    fontFamily: "inherit",
+    fontFamily: "'Chilanka', sans-serif",
+    boxShadow: "0 4px 12px rgba(13, 148, 136, 0.2)",
   };
 
   const tableStyle: React.CSSProperties = {
     width: "100%",
     borderCollapse: "collapse",
-    fontSize: "13px",
+    fontSize: "14px",
+    fontFamily: "'Chilanka', sans-serif",
   };
 
   const thStyle: React.CSSProperties = {
     textAlign: "left",
     padding: "12px",
-    color: "#8A8A92",
-    fontWeight: 600,
-    borderBottom: "1px solid #2A2A2F",
+    color: "#475569",
+    fontWeight: 700,
+    borderBottom: "2px solid #E2E8F0",
+    background: "#F8FAFC",
   };
 
   const tdStyle: React.CSSProperties = {
     padding: "12px",
-    color: "#EDEDEF",
-    borderBottom: "1px solid #2A2A2F",
+    color: "#0F172A",
+    borderBottom: "1px solid #E2E8F0",
   };
 
   return (
     <div
       style={{
         minHeight: "100vh",
-        background: "#0A0A0C",
-        fontFamily: "'Sora', 'Segoe UI', Arial, sans-serif",
+        background: "#F1F5F9",
+        fontFamily: "'Chilanka', sans-serif",
         padding: "40px 16px",
       }}
     >
-      <link
-        href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap"
-        rel="stylesheet"
-      />
       {loadingUsers ? (
         <div
           style={{
@@ -210,72 +210,72 @@ export default function AdminPanel() {
             <h1
               style={{
                 margin: "0 0 8px",
-                fontSize: "32px",
+                fontSize: "30px",
                 fontWeight: 800,
-                color: "#FFFFFF",
+                color: "#0F172A",
                 letterSpacing: "-0.5px",
               }}
             >
-              Admin Panel
+              അഡ്മിൻ പാനൽ
             </h1>
             <button
               onClick={togglePlay}
               style={{
                 background: "none",
                 border: "none",
-                color: isPlaying ? "#4FD1C5" : "#8A8A92",
+                color: isPlaying ? "#0D9488" : "#64748B",
                 cursor: "pointer",
               }}
             >
               {isPlaying ? <Pause size={32} /> : <Play size={32} />}
             </button>
           </div>
-          <p style={{ color: "#8A8A92", fontSize: "14px", marginBottom: "32px" }}>
-            Manage configurations and view registered users
+          <p style={{ color: "#64748B", fontSize: "14px", marginBottom: "32px" }}>
+            ക്രമീകരണങ്ങൾ നിയന്ത്രിക്കുകയും രജിസ്റ്റർ ചെയ്ത ഉപയോക്താക്കളെ കാണുകയും ചെയ്യുക
           </p>
 
           {/* Config Section */}
           {isOffline && (
-            <div style={{ ...cardStyle, background: "#ef444420", border: "1px solid #ef4444" }}>
-              <p style={{ color: "#ef4444", margin: 0 }}>You are currently offline. Changes will not be saved.</p>
+            <div style={{ ...cardStyle, background: "#FEF2F2", border: "1px solid #FCA5A5" }}>
+              <p style={{ color: "#DC2626", margin: 0 }}>നിങ്ങൾ ഇപ്പോൾ ഓഫ്ലൈനിലാണ്. മാറ്റങ്ങൾ സേവ് ആകില്ല.</p>
             </div>
           )}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
             <div style={cardStyle}>
-              <h2 style={{ margin: "0 0 16px", fontSize: "18px", color: "#4FD1C5" }}>
-                Panchayaths
+              <h2 style={{ margin: "0 0 16px", fontSize: "18px", color: "#0D9488" }}>
+                പഞ്ചായത്തുകൾ
               </h2>
-              <p style={{ color: "#8A8A92", fontSize: "12px", marginBottom: "12px" }}>
-                Enter comma-separated names
+              <p style={{ color: "#64748B", fontSize: "13px", marginBottom: "12px" }}>
+                കോമ ഇട്ട് വേർതിരിച്ച് പഞ്ചായത്ത് പേരുകൾ നൽകുക
               </p>
               <input
                 type="text"
-                placeholder="e.g. Haripad, Cheppad, Krishnapuram"
+                placeholder="ഉദാ: ഹരിപ്പാട്, ചെപ്പാട്, കൃഷ്ണപുരം"
                 value={newPanchayath}
                 onChange={(e) => setNewPanchayath(e.target.value)}
                 style={inputStyle}
               />
               <button onClick={savePanchayaths} style={btnStyle}>
-                Save Panchayaths
+                പഞ്ചായത്തുകൾ സേവ് ചെയ്യുക
               </button>
             </div>
 
             <div style={cardStyle}>
-              <h2 style={{ margin: "0 0 16px", fontSize: "18px", color: "#4FD1C5" }}>
-                Wards
+              <h2 style={{ margin: "0 0 16px", fontSize: "18px", color: "#0D9488" }}>
+                വാർഡുകൾ
               </h2>
-              <p style={{ color: "#8A8A92", fontSize: "12px", marginBottom: "12px" }}>
-                Enter comma-separated numbers
+              <p style={{ color: "#64748B", fontSize: "13px", marginBottom: "12px" }}>
+                കോമ ഇട്ട് വേർതിരിച്ച് വാർഡ് നമ്പറുകൾ നൽകുക
               </p>
               <input
                 type="text"
-                placeholder="e.g. 1, 2, 3, 4, 5"
+                placeholder="ഉദാ: 1, 2, 3, 4, 5"
                 value={newWard}
                 onChange={(e) => setNewWard(e.target.value)}
                 style={inputStyle}
               />
               <button onClick={saveWards} style={btnStyle}>
-                Save Wards
+                വാർഡുകൾ സേവ് ചെയ്യുക
               </button>
             </div>
           </div>
@@ -283,8 +283,8 @@ export default function AdminPanel() {
           {configMsg && (
             <p
               style={{
-                color: configMsg.includes("success") ? "#4FD1C5" : "#ef4444",
-                fontSize: "13px",
+                color: configMsg.includes("വിജയകരമായി") ? "#0D9488" : "#DC2626",
+                fontSize: "14px",
                 marginBottom: "24px",
               }}
             >
@@ -294,24 +294,24 @@ export default function AdminPanel() {
 
           {/* Users Table */}
           <div style={cardStyle}>
-            <h2 style={{ margin: "0 0 16px", fontSize: "18px", color: "#4FD1C5" }}>
-              Registered Users
+            <h2 style={{ margin: "0 0 16px", fontSize: "18px", color: "#0D9488" }}>
+              രജിസ്റ്റർ ചെയ്ത ഉപയോക്താക്കൾ
             </h2>
             {users.length === 0 ? (
-              <p style={{ color: "#8A8A92" }}>No users registered yet.</p>
+              <p style={{ color: "#64748B" }}>രജിസ്റ്റർ ചെയ്ത ഉപയോക്താക്കൾ ആരുമില്ല.</p>
             ) : (
               <div style={{ overflowX: "auto" }}>
                 <table style={tableStyle}>
                   <thead>
                     <tr>
-                      <th style={thStyle}>Name</th>
-                      <th style={thStyle}>Phone</th>
-                      <th style={thStyle}>Blood Group</th>
-                      <th style={thStyle}>Panchayath</th>
-                      <th style={thStyle}>Ward</th>
-                      <th style={thStyle}>Password</th>
-                      <th style={thStyle}>Registered</th>
-                      <th style={thStyle}>Actions</th>
+                      <th style={thStyle}>പേര്</th>
+                      <th style={thStyle}>ഫോൺ നമ്പർ</th>
+                      <th style={thStyle}>ബ്ലഡ് ഗ്രൂപ്പ്</th>
+                      <th style={thStyle}>പഞ്ചായത്ത്</th>
+                      <th style={thStyle}>വാർഡ്</th>
+                      <th style={thStyle}>പാസ്‌വേഡ്</th>
+                      <th style={thStyle}>രജിസ്റ്റർ ചെയ്ത തീയതി</th>
+                      <th style={thStyle}>നടപടികൾ</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -327,7 +327,8 @@ export default function AdminPanel() {
                             ...tdStyle,
                             fontFamily: "monospace",
                             letterSpacing: "1px",
-                            color: "#4FD1C5",
+                            color: "#0D9488",
+                            fontWeight: 700,
                           }}
                         >
                           {u.password}
@@ -341,16 +342,17 @@ export default function AdminPanel() {
                           <button
                             onClick={() => deleteUser(u.id)}
                             style={{
-                              background: "#ef4444",
+                              background: "#EF4444",
                               color: "white",
                               border: "none",
                               padding: "6px 12px",
                               borderRadius: "6px",
                               cursor: "pointer",
-                              fontSize: "12px",
+                              fontSize: "13px",
+                              fontFamily: "'Chilanka', sans-serif",
                             }}
                           >
-                            Delete
+                            ഡിലീറ്റ്
                           </button>
                         </td>
                       </tr>
@@ -365,3 +367,4 @@ export default function AdminPanel() {
     </div>
   );
 }
+

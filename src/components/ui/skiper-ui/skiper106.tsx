@@ -43,8 +43,8 @@ export default function UserForm() {
   const [generatedPassword, setGeneratedPassword] = useState<string | null>(null);
 
   const DEFAULT_PANCHAYATHS = [
-    "Haripad", "Cheppad", "Krishnapuram", "Kandarappally",
-    "Chingoli", "Karthikappally", "Thrikkunnapuzha", "Veeyapuram",
+    "ഹരിപ്പാട്", "ചെപ്പാട്", "കൃഷ്ണപുരം", "കണ്ടല്ലൂർ",
+    "ചിങ്ങോലി", "കാർത്തികപ്പള്ളി", "തൃക്കുന്നപ്പുഴ", "വീയപുരം",
   ];
   const DEFAULT_WARDS = Array.from({ length: 15 }, (_, i) => (i + 1).toString());
 
@@ -84,44 +84,44 @@ export default function UserForm() {
 
   const getInputStyle = (): React.CSSProperties => ({
     width: "100%",
-    background: "#1C1C21",
-    border: "none",
+    background: "#F8FAFC",
+    border: "1px solid #E2E8F0",
     borderRadius: "10px",
     padding: "13px 14px",
-    color: "#EDEDEF",
-    fontFamily: "inherit",
+    color: "#0F172A",
+    fontFamily: "'Chilanka', sans-serif",
     fontSize: "14px",
     appearance: "none" as const,
     outline: "none",
-    boxShadow: "0 0 0 1px transparent",
-    transition: "box-shadow .15s ease",
+    boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)",
+    transition: "all .15s ease",
   });
 
   const getSelectStyle = (): React.CSSProperties => ({
     width: "100%",
-    background: "#1C1C21",
-    border: "none",
+    background: "#F8FAFC",
+    border: "1px solid #E2E8F0",
     borderRadius: "10px",
     padding: "13px 14px",
-    color: "#EDEDEF",
-    fontFamily: "inherit",
+    color: "#0F172A",
+    fontFamily: "'Chilanka', sans-serif",
     fontSize: "14px",
     appearance: "none" as const,
     outline: "none",
-    boxShadow: "0 0 0 1px transparent",
-    transition: "box-shadow .15s ease",
+    boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)",
+    transition: "all .15s ease",
     backgroundImage:
-      "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' stroke='%238FA1A6' stroke-width='2'><path d='M2 4l5 5 5-5'/></svg>\")",
+      "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' stroke='%2364748B' stroke-width='2'><path d='M2 4l5 5 5-5'/></svg>\")",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "right 14px center",
   });
 
   const validateForm = (): string | null => {
-    if (formData.name.trim().length < 3) return "Name must be at least 3 characters long.";
-    if (!/^\d{10}$/.test(formData.phone.trim())) return "Phone number must be 10 digits.";
-    if (!formData.bloodGroup) return "Please select a blood group.";
-    if (!formData.panchayath) return "Please select a panchayath.";
-    if (!formData.ward) return "Please select a ward.";
+    if (formData.name.trim().length < 3) return "പേര് കുറഞ്ഞത് 3 അക്ഷരമെങ്കിലും വേണം.";
+    if (!/^\d{10}$/.test(formData.phone.trim())) return "ഫോൺ നമ്പർ 10 അക്കമുള്ളതായിരിക്കണം.";
+    if (!formData.bloodGroup) return "ദയവായി ബ്ലഡ് ഗ്രൂപ്പ് തിരഞ്ഞെടുക്കുക.";
+    if (!formData.panchayath) return "ദയവായി പഞ്ചായത്ത് തിരഞ്ഞെടുക്കുക.";
+    if (!formData.ward) return "ദയവായി വാർഡ് തിരഞ്ഞെടുക്കുക.";
     return null;
   };
 
@@ -152,7 +152,7 @@ export default function UserForm() {
       setSuccess(true);
       setFormData({ name: "", phone: "", bloodGroup: "", panchayath: "", ward: "" });
     } catch {
-      setError("Failed to save user. Please try again.");
+      setError("ഉപയോക്താവിനെ സേവ് ചെയ്യാൻ സാധിച്ചില്ല. വീണ്ടും ശ്രമിക്കുക.");
     } finally {
       setLoading(false);
     }
@@ -169,48 +169,49 @@ export default function UserForm() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#0A0A0C",
-        fontFamily: "'Sora', 'Segoe UI', Arial, sans-serif",
+        background: "#F1F5F9",
+        fontFamily: "'Chilanka', sans-serif",
         padding: "40px 16px",
       }}
     >
-      <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet" />
       <style>{`
         .form-input-field:focus, .form-select-field:focus {
-          box-shadow: 0 0 0 1.5px #4FD1C5 !important;
+          border-color: #0D9488 !important;
+          box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2) !important;
         }
       `}</style>
       <div
         style={{
           width: "100%",
           maxWidth: "480px",
-          background: "#141417",
+          background: "#FFFFFF",
           borderRadius: "20px",
           padding: "36px 36px 28px",
-          boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
+          boxShadow: "0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.01)",
+          border: "1px solid #E2E8F0",
         }}
       >
         <h1
           style={{
             margin: 0,
             textAlign: "center",
-            fontSize: "28px",
+            fontSize: "26px",
             fontWeight: 800,
-            color: "#EDEDEF",
+            color: "#0F172A",
             letterSpacing: "-0.5px",
           }}
         >
-          User Registration
+          രജിസ്ട്രേഷൻ
         </h1>
         <p
           style={{
             textAlign: "center",
-            color: "#8A8A92",
-            fontSize: "13px",
+            color: "#64748B",
+            fontSize: "14px",
             margin: "8px 0 28px",
           }}
         >
-          Fill in your details to register
+          രജിസ്റ്റർ ചെയ്യുന്നതിനായി വിവരങ്ങൾ നൽകുക
         </p>
 
         <form onSubmit={handleSubmit}>
@@ -220,18 +221,19 @@ export default function UserForm() {
               htmlFor="field-name"
               style={{
                 display: "block",
-                fontSize: "13px",
-                color: "#8A8A92",
+                fontSize: "14px",
+                fontWeight: 600,
+                color: "#334155",
                 marginBottom: "6px",
               }}
             >
-              Name
+              പേര്
             </label>
             <input
               id="field-name"
               type="text"
               name="name"
-              placeholder="Enter your name"
+              placeholder="പേര് നൽകുക"
               required
               value={formData.name}
               onChange={handleChange}
@@ -246,18 +248,19 @@ export default function UserForm() {
               htmlFor="field-phone"
               style={{
                 display: "block",
-                fontSize: "13px",
-                color: "#8A8A92",
+                fontSize: "14px",
+                fontWeight: 600,
+                color: "#334155",
                 marginBottom: "6px",
               }}
             >
-              Phone Number
+              ഫോൺ നമ്പർ
             </label>
             <input
               id="field-phone"
               type="tel"
               name="phone"
-              placeholder="Enter phone number"
+              placeholder="ഫോൺ നമ്പർ നൽകുക"
               required
               value={formData.phone}
               onChange={handleChange}
@@ -272,12 +275,13 @@ export default function UserForm() {
               htmlFor="field-bloodGroup"
               style={{
                 display: "block",
-                fontSize: "13px",
-                color: "#8A8A92",
+                fontSize: "14px",
+                fontWeight: 600,
+                color: "#334155",
                 marginBottom: "6px",
               }}
             >
-              Blood Group
+              ബ്ലഡ് ഗ്രൂപ്പ്
             </label>
             <select
               id="field-bloodGroup"
@@ -289,10 +293,10 @@ export default function UserForm() {
               style={getSelectStyle()}
             >
               <option value="" disabled>
-                Select blood group
+                ബ്ലഡ് ഗ്രൂപ്പ് തിരഞ്ഞെടുക്കുക
               </option>
               {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map((group) => (
-                <option key={group} value={group} style={{ background: "#1C1C21", color: "#EDEDEF" }}>
+                <option key={group} value={group} style={{ background: "#FFFFFF", color: "#0F172A" }}>
                   {group}
                 </option>
               ))}
@@ -305,12 +309,13 @@ export default function UserForm() {
               htmlFor="field-panchayath"
               style={{
                 display: "block",
-                fontSize: "13px",
-                color: "#8A8A92",
+                fontSize: "14px",
+                fontWeight: 600,
+                color: "#334155",
                 marginBottom: "6px",
               }}
             >
-              Panchayath
+              പഞ്ചായത്ത്
             </label>
             <select
               id="field-panchayath"
@@ -322,10 +327,10 @@ export default function UserForm() {
               style={getSelectStyle()}
             >
               <option value="" disabled>
-                Select panchayath
+                പഞ്ചായത്ത് തിരഞ്ഞെടുക്കുക
               </option>
               {panchayaths.map((p) => (
-                <option key={p} value={p} style={{ background: "#1C1C21", color: "#EDEDEF" }}>
+                <option key={p} value={p} style={{ background: "#FFFFFF", color: "#0F172A" }}>
                   {p}
                 </option>
               ))}
@@ -338,12 +343,13 @@ export default function UserForm() {
               htmlFor="field-ward"
               style={{
                 display: "block",
-                fontSize: "13px",
-                color: "#8A8A92",
+                fontSize: "14px",
+                fontWeight: 600,
+                color: "#334155",
                 marginBottom: "6px",
               }}
             >
-              Ward
+              വാർഡ്
             </label>
             <select
               id="field-ward"
@@ -355,10 +361,10 @@ export default function UserForm() {
               style={getSelectStyle()}
             >
               <option value="" disabled>
-                Select ward
+                വാർഡ് തിരഞ്ഞെടുക്കുക
               </option>
               {wards.map((w) => (
-                <option key={w} value={w} style={{ background: "#1C1C21", color: "#EDEDEF" }}>
+                <option key={w} value={w} style={{ background: "#FFFFFF", color: "#0F172A" }}>
                   {w}
                 </option>
               ))}
@@ -366,30 +372,30 @@ export default function UserForm() {
           </div>
 
           {error && (
-            <p style={{ color: "#ef4444", fontSize: "13px", marginBottom: "12px" }}>{error}</p>
+            <p style={{ color: "#EF4444", fontSize: "13px", marginBottom: "12px" }}>{error}</p>
           )}
 
           {success && generatedPassword && (
             <div
               style={{
-                background: "#0C1416",
-                border: "1px solid #4FD1C5",
+                background: "#F0FDF4",
+                border: "1px solid #86EFAC",
                 borderRadius: "10px",
                 padding: "14px",
                 marginBottom: "18px",
                 textAlign: "center",
               }}
             >
-              <p style={{ color: "#4FD1C5", fontSize: "13px", fontWeight: 600, margin: "0 0 6px" }}>
-                Registration Successful!
+              <p style={{ color: "#166534", fontSize: "14px", fontWeight: 700, margin: "0 0 6px" }}>
+                രജിസ്ട്രേഷൻ വിജയകരമായി പൂർത്തിയായി!
               </p>
-              <p style={{ color: "#8A8A92", fontSize: "12px", margin: "0 0 8px" }}>
-                Your generated password:
+              <p style={{ color: "#475569", fontSize: "13px", margin: "0 0 8px" }}>
+                നിങ്ങളുടെ പാസ്‌വേഡ്:
               </p>
               <p
                 style={{
-                  color: "#EDEDEF",
-                  fontSize: "18px",
+                  color: "#0F172A",
+                  fontSize: "20px",
                   fontWeight: 800,
                   letterSpacing: "2px",
                   margin: 0,
@@ -410,13 +416,14 @@ export default function UserForm() {
               padding: "14px",
               borderRadius: "10px",
               border: "none",
-              background: "linear-gradient(180deg, #4FD1C5 0%, #2C7A73 100%)",
-              color: "#0C1416",
-              fontSize: "15px",
+              background: "linear-gradient(180deg, #0D9488 0%, #0F766E 100%)",
+              color: "#FFFFFF",
+              fontSize: "16px",
               fontWeight: 700,
               cursor: "pointer",
               transition: "filter .15s ease",
               fontFamily: "inherit",
+              boxShadow: "0 4px 12px rgba(13, 148, 136, 0.25)",
             }}
             onMouseEnter={(e) => {
               (e.target as HTMLButtonElement).style.filter = "brightness(1.08)";
@@ -425,10 +432,11 @@ export default function UserForm() {
               (e.target as HTMLButtonElement).style.filter = "brightness(1)";
             }}
           >
-            {loading ? "Submitting..." : "Submit"}
+            {loading ? "സമർപ്പിക്കുന്നു..." : "സമർപ്പിക്കുക"}
           </button>
         </form>
       </div>
     </div>
   );
 }
+
